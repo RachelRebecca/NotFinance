@@ -1,52 +1,69 @@
 package knapsack;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Knapsack
 {
-    private double maxWeight;
-    private ArrayList<Item> items;
+    private final double maxWeight;
+    private final ArrayList<Item> items;
+    private double currWeight;
+    private final double DEFAULT_WEIGHT = 10.0;
     
     public Knapsack(double maxWeight)
     {
-        if (maxWeight > 0)
+        this.maxWeight = maxWeight > 0 ? maxWeight : DEFAULT_WEIGHT;
+        this.items = new ArrayList<>();
+        this.currWeight = 0.0;
+    }
+
+    public ArrayList<Item> greedySolution(ArrayList<Item> potentialItems)
+    {
+        ArrayList<Item> sortedByRatios = new ArrayList<>(potentialItems);
+        sortedByRatios.sort(Comparator.naturalOrder());
+        Collections.reverse(sortedByRatios);
+
+        for(Item item : sortedByRatios)
         {
-            this.maxWeight = maxWeight;
-            this.items = new ArrayList<>();
+            boolean added = addItem(item);
+            if (!added) break;
         }
+
+        return items;
     }
     
-    public double getMaxWeight()
+    private double getMaxWeight()
     {
         return maxWeight;
     }
-    
-    public boolean addItem(Item item)
+
+    private double getCurrWeight() {return currWeight;}
+
+    private boolean addItem(Item item)
     {
         boolean added = false;
-        if (item.getWeight() + getKnapsackWeight() <= maxWeight)
+        if (canAdd(item))
         {
             added = true;
             items.add(item);
+            currWeight += item.getWeight();
         }
         return added;
     }
 
-    public boolean removeItem(Item item)
+    private boolean removeItem(Item item)
     {
         boolean exists = items.contains(item);
         items.remove(item);
+        if (exists)
+        {
+            currWeight -= item.getWeight();
+        }
         return exists;
     }
-    
-    public double getKnapsackWeight()
+
+    private boolean canAdd(Item item)
     {
-        double weights = 0.0;
-        for (Item item : items)
-        {
-            weights += item.getWeight();
-        }
-        return weights;
+        return item.getWeight() + getCurrWeight() <= getMaxWeight();
     }
 }
 
