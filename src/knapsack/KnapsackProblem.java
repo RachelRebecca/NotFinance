@@ -30,15 +30,22 @@ public class KnapsackProblem
             {
                 line = reader.readLine();
                 String[] splitLine = line.split(",");
-                items.add(new Item(Double.parseDouble(splitLine[0]), Double.parseDouble(splitLine[1])));
+                items.add(new Item(Integer.parseInt(splitLine[0]), Integer.parseInt(splitLine[1])));
             }
-        } catch (Exception ignored)
+        } catch (Exception exception)
         {
+            System.out.println("This happened: " + exception.getMessage());
         }
 
         Knapsack knapsack = new Knapsack(maxWeight);
         ArrayList<Item> usedItems = knapsack.greedySolution(items);
         System.out.println(usedItems);
         System.out.println(items);
+        System.out.println("current  value in knapsack: " + knapsack.getValue());
+        System.out.println("maximum weight in knapsack: " + knapsack.getMaxWeight());
+        System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());
+
+        System.out.println("max value knapsack can carry: " + knapsack.wikiSolution(items));
+
     }
 }

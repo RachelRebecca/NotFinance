@@ -5,10 +5,10 @@ import java.util.Objects;
 
 public class Item implements Comparable<Item>
 {
-    private double weight;
-    private double value;
+    private int weight;
+    private int value;
 
-    public Item(double weight, double value)
+    public Item(int weight, int value)
     {
         if (weight > 0 && value > 0)
         {
@@ -17,12 +17,12 @@ public class Item implements Comparable<Item>
         }
     }
 
-    public double getWeight()
+    public int getWeight()
     {
         return weight;
     }
 
-    public double getValue()
+    public int getValue()
     {
         return value;
     }
