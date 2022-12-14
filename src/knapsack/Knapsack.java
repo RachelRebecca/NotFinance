@@ -8,7 +8,7 @@ public class Knapsack
     private final ArrayList<Item> items;
     private double currWeight;
     private final int DEFAULT_WEIGHT = 10;
-    
+
     public Knapsack(int maxWeight)
     {
         this.maxWeight = maxWeight > 0 ? maxWeight : DEFAULT_WEIGHT;
@@ -22,7 +22,7 @@ public class Knapsack
         sortedByRatios.sort(Comparator.naturalOrder());
         Collections.reverse(sortedByRatios);
 
-        for(Item item : sortedByRatios)
+        for (Item item : sortedByRatios)
         {
             addItemIfPossible(item);
         }
@@ -30,43 +30,90 @@ public class Knapsack
         return items;
     }
 
-    public int wikiSolution(ArrayList<Item> potentialItems){
+    public int wikiSolution(ArrayList<Item> potentialItems)
+    {
         ArrayList<Item> sortedList = new ArrayList<>(potentialItems);
         sortedList.sort(Comparator.comparing(Item::getWeight));
         Collections.reverse(sortedList);
 
         int listSize = sortedList.size();
         int[][] itemsTable = new int[listSize + 1][maxWeight + 1];
-
         for (int row = 1; row <= listSize; row++)
         {
             for (int col = 1; col <= maxWeight; col++)
             {
-                if(sortedList.get(row-1).getWeight() > col){
-                    itemsTable[row][col] = itemsTable[row-1][col];
+                Item itemToLook = sortedList.get(row - 1);
+                if (itemToLook.getWeight() <= col)
+                {
+                    /*itemsTable[row][col] = Math.max(itemsTable[row - 1][col],
+                            itemsTable[row - 1][col - sortedList.get(row - 1).getWeight()] + sortedList.get(row - 1).getValue());
+*/
+                    if (itemsTable[row - 1][col] > itemsTable[row - 1][col - itemToLook.getWeight()] + itemToLook.getValue())
+                    {
+                        itemsTable[row][col] = itemsTable[row - 1][col];
+                    }
+                    else
+                    {
+                        removeItem(getItemWithWeightValue(col));
+                        addItemIfPossible(itemToLook);
+                        itemsTable[row][col] = itemsTable[row - 1][col - itemToLook.getWeight()] + itemToLook.getValue();
+                    }
                 }
-                else{
-                    itemsTable[row][col] = Math.max(itemsTable[row-1][col],
-                            itemsTable[row - 1][col - sortedList.get(row-1).getWeight()] + sortedList.get(row-1).getValue());
-                }
+                /*else
+                {
+                    ;
+                    *//*itemsTable[row][col] = itemsTable[row - 1][col];
+                    this.addItemIfPossible(sortedList.get(row - 1));*//*
+                }*/
+
+
+
+                /*TODO: READ THIS:
+                 *
+                 * if adding item takes weight over the limit:
+                 *   value = value to the left (col-1)
+                 * else:
+                 *   value = max of with item or without item
+                 *   with = [row-1][col-weight]+value
+                 *   without = col-1
+                 */
+
+
             }
         }
+
 
         return itemsTable[listSize][maxWeight];
 
     }
-    
+
+    private Item getItemWithWeightValue(int col)
+    {
+        for (int ii = 0; ii < items.size(); ii++)
+        {
+            if (items.get(ii).getWeight() == col)
+            {
+                return items.get(ii);
+            }
+        }
+        //System.out.println("booga booga!");
+        return null;
+    }
+
     public double getMaxWeight()
     {
         return maxWeight;
     }
 
-    public double getCurrWeight() {return currWeight;}
+    public double getCurrWeight()
+    {
+        return currWeight;
+    }
 
     private boolean addItemIfPossible(Item item)
     {
         boolean added = false;
-        if (canAdd(item))
+        if (canAdd(item) && !items.contains(item))
         {
             added = true;
             items.add(item);
@@ -77,11 +124,15 @@ public class Knapsack
 
     private boolean removeItem(Item item)
     {
-        boolean exists = items.contains(item);
-        items.remove(item);
-        if (exists)
+        boolean exists = false;
+        if (item != null)
         {
-            currWeight -= item.getWeight();
+            exists = items.contains(item);
+            items.remove(item);
+            if (exists)
+            {
+                currWeight -= item.getWeight();
+            }
         }
         return exists;
     }
@@ -100,5 +151,13 @@ public class Knapsack
         }
         return knapsackValue;
     }
+
+    @Override
+    public String toString()
+    {
+        return items.toString();
+    }
+
+
 }
 

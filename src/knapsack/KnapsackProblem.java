@@ -1,7 +1,5 @@
 package knapsack;
 
-import transactions.Transaction;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.Random;
 
 public class KnapsackProblem
 {
-    static final Random random = new Random();
     public static void main(String[] args)
     {
         int maxWeight = 10;
@@ -38,14 +35,19 @@ public class KnapsackProblem
         }
 
         Knapsack knapsack = new Knapsack(maxWeight);
-        ArrayList<Item> usedItems = knapsack.greedySolution(items);
+        /*ArrayList<Item> usedItems = knapsack.greedySolution(items);
         System.out.println(usedItems);
         System.out.println(items);
         System.out.println("current  value in knapsack: " + knapsack.getValue());
         System.out.println("maximum weight in knapsack: " + knapsack.getMaxWeight());
-        System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());
+        System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());*/
 
+        System.out.println(items);
         System.out.println("max value knapsack can carry: " + knapsack.wikiSolution(items));
+        System.out.println("maximum weight in knapsack: " + knapsack.getMaxWeight());
+        System.out.println("current  value in knapsack: " + knapsack.getValue());
+        System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());
+        System.out.println("current items in the knapsack: " + knapsack);
 
     }
 }
