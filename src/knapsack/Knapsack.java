@@ -1,5 +1,6 @@
 package knapsack;
 
+import java.sql.Array;
 import java.util.*;
 
 public class Knapsack
@@ -30,61 +31,65 @@ public class Knapsack
         return items;
     }
 
-    public int wikiSolution(ArrayList<Item> potentialItems)
+    public ArrayList<Item> wikiSolution(ArrayList<Item> potentialItems)
     {
-        ArrayList<Item> sortedList = new ArrayList<>(potentialItems);
-        sortedList.sort(Comparator.comparing(Item::getWeight));
-        Collections.reverse(sortedList);
+        // todo: not working. need to debug to understand. items returned have a weight > maxWeight
 
-        int listSize = sortedList.size();
-        int[][] itemsTable = new int[listSize + 1][maxWeight + 1];
-        for (int row = 1; row <= listSize; row++)
+        ArrayList<Item> sortedPotentialItemList = new ArrayList<>(potentialItems);
+        sortedPotentialItemList.sort(Comparator.comparing(Item::getWeight));
+        Collections.reverse(sortedPotentialItemList);
+
+        int potentialListSize = sortedPotentialItemList.size();
+        int[] rowAbove = new int[maxWeight + 1];
+        int[] currentRow = new int[maxWeight + 1];
+
+        ArrayList<Item>[] rowAboveItems = new ArrayList[maxWeight + 1];
+
+        for (int i = 0; i <= maxWeight; i++) {
+            rowAboveItems[i] = new ArrayList<>();
+        }
+        ArrayList<Item>[] currentRowItems = new ArrayList[maxWeight + 1];
+
+        for (int i = 0; i <= maxWeight; i++) {
+            currentRowItems[i] = new ArrayList<>();
+        }
+
+        for (int row = 1; row <= potentialListSize; row++)
         {
+            Item newItem = sortedPotentialItemList.get(row - 1);
+            int potentialNewWeight = newItem.getWeight();
+            int potentialNewValue = newItem.getValue();
+
             for (int col = 1; col <= maxWeight; col++)
             {
-                Item itemToLook = sortedList.get(row - 1);
-                if (itemToLook.getWeight() <= col)
+                if (potentialNewWeight <= col)
                 {
-                    /*itemsTable[row][col] = Math.max(itemsTable[row - 1][col],
-                            itemsTable[row - 1][col - sortedList.get(row - 1).getWeight()] + sortedList.get(row - 1).getValue());
-*/
-                    if (itemsTable[row - 1][col] > itemsTable[row - 1][col - itemToLook.getWeight()] + itemToLook.getValue())
+                    int maxValueWithItem = rowAbove[col - potentialNewWeight] + potentialNewValue;
+                    if (maxValueWithItem > rowAbove[col])
                     {
-                        itemsTable[row][col] = itemsTable[row - 1][col];
+                        currentRow[col] = maxValueWithItem;
+                        currentRowItems[col].addAll(rowAboveItems[col]);
+                        currentRowItems[col].add(newItem);
+                    } else {
+                        currentRow[col] = rowAbove[col];
+                        currentRowItems[col] = rowAboveItems[col];
                     }
-                    else
-                    {
-                        removeItem(getItemWithWeightValue(col));
-                        addItemIfPossible(itemToLook);
-                        itemsTable[row][col] = itemsTable[row - 1][col - itemToLook.getWeight()] + itemToLook.getValue();
-                    }
+                } else {
+                    currentRow[col] = rowAbove[col];
+                    currentRowItems[col] = rowAboveItems[col];
                 }
-                /*else
-                {
-                    ;
-                    *//*itemsTable[row][col] = itemsTable[row - 1][col];
-                    this.addItemIfPossible(sortedList.get(row - 1));*//*
-                }*/
+            }
 
+            System.arraycopy(currentRow, 0, rowAbove, 0, currentRow.length);
+            currentRow = new int[maxWeight + 1];
 
-
-                /*TODO: READ THIS:
-                 *
-                 * if adding item takes weight over the limit:
-                 *   value = value to the left (col-1)
-                 * else:
-                 *   value = max of with item or without item
-                 *   with = [row-1][col-weight]+value
-                 *   without = col-1
-                 */
-
-
+            System.arraycopy(currentRowItems, 0, rowAboveItems, 0, currentRowItems.length);
+            for (int i = 0; i <= maxWeight; i++) {
+                currentRowItems[i] = new ArrayList<>();
             }
         }
 
-
-        return itemsTable[listSize][maxWeight];
-
+        return rowAboveItems[maxWeight];
     }
 
     private Item getItemWithWeightValue(int col)
