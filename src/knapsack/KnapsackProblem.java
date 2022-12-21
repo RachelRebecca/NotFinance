@@ -42,12 +42,15 @@ public class KnapsackProblem
         System.out.println("maximum weight in knapsack: " + knapsack.getMaxWeight());
         System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());*/
 
-        System.out.println(items);
-        System.out.println("max value knapsack can carry: " + knapsack.wikiSolution(items));
+//        System.out.println(items);
+        System.out.println("items in knapsack: \n" + knapsack.wikiSolution(items)
+                .toString()
+                .replace("[","")
+                .replace("]",""));
         System.out.println("maximum weight in knapsack: " + knapsack.getMaxWeight());
         System.out.println("current  value in knapsack: " + knapsack.getValue());
         System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());
-        System.out.println("current items in the knapsack: " + knapsack);
+//        System.out.println("current items in the knapsack: " + knapsack);
 
     }
 }

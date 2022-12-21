@@ -68,7 +68,7 @@ public class Knapsack
                     if (maxValueWithItem > rowAbove[col])
                     {
                         currentRow[col] = maxValueWithItem;
-                        currentRowItems[col].addAll(rowAboveItems[col]);
+                        currentRowItems[col].addAll(rowAboveItems[col - potentialNewWeight]);
                         currentRowItems[col].add(newItem);
                     } else {
                         currentRow[col] = rowAbove[col];
@@ -88,8 +88,12 @@ public class Knapsack
                 currentRowItems[i] = new ArrayList<>();
             }
         }
-
-        return rowAboveItems[maxWeight];
+        ArrayList<Item> toAdd = new ArrayList<>(rowAboveItems[maxWeight]);
+        for (Item i : toAdd)
+        {
+            addItemIfPossible(i);
+        }
+        return toAdd;
     }
 
     private Item getItemWithWeightValue(int col)
