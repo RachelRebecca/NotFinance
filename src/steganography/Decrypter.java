@@ -35,7 +35,6 @@ public class Decrypter
         }
     }
 
-
     private static String decrypt(BufImg srcImage, char[] key, int textLength)
     {
         int keyLength = key.length;
@@ -49,15 +48,21 @@ public class Decrypter
             int tri = 0;
 
             int width = srcImage.getBi().getWidth(); // columns
-            int height = srcImage.getBi().getHeight(); // rows
+            int height = srcImage.getBi().getHeight();  // rows
 
             for (int textIndex = 0; textIndex < textLength; textIndex++)
             {
                 Color color;
                 int val = 0;
+                Color newColor = new Color(srcImage.getBi().getRGB(pixelXIndex, pixelYIndex));
+                if (newColor.getRed() == 4)
+                {
+                    System.out.println("x = " + pixelXIndex + " y = " + pixelYIndex);
+                }
                 switch (tri++ % 3)
                 {
                     case 0:
+                        System.out.println(srcImage.getBi().getRGB(pixelXIndex, pixelYIndex));
                         color = new Color(srcImage.getBi().getRGB(pixelXIndex, pixelYIndex));
                         int red = color.getRed();
                         val = red ^ key[keyIndex++];

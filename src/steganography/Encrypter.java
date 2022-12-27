@@ -53,7 +53,7 @@ public class Encrypter
             int tri = 0;
 
             int width = srcImage.getBi().getWidth(); // columns
-            int height = srcImage.getBi().getHeight(); // rows
+            int height = srcImage.getBi().getHeight();  // rows
 
             for (int textIndex = 0; textIndex < textLength; textIndex++)
             {
@@ -66,8 +66,10 @@ public class Encrypter
                 switch (tri++ % 3)
                 {
                     case 0:
-                        srcImage.getBi().setRGB(pixelXIndex, pixelYIndex,
-                                new Color(xored, pixel.getGreen(), pixel.getBlue()).getRGB());
+                        Color color = new Color(xored, pixel.getGreen(), pixel.getBlue());
+                        srcImage.getBi().setRGB(pixelXIndex, pixelYIndex, color.getRGB());
+                        Color newColor = new Color(srcImage.getBi().getRGB(pixelXIndex, pixelYIndex));
+                        int rgb = srcImage.getBi().getRGB(pixelXIndex, pixelYIndex);
                         break;
                     case 1:
                         srcImage.getBi().setRGB(pixelXIndex, pixelYIndex,
@@ -86,24 +88,11 @@ public class Encrypter
 
             }
 
-            /*
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-
-                    image.setRGB(x, y, srcImage.getBi().getRGB(x, y));
-                }
-            }
-*/
             File file = new File(tgtImage);
             ImageIO.write(srcImage.getBi(), "jpg", file);
         } catch (Exception exc)
         {
             exc.printStackTrace();
-            // System.out.println(exc.getMessage());
         }
-
     }
 }
