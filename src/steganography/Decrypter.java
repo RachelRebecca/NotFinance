@@ -74,7 +74,7 @@ public class Decrypter
                         break;
                 }
 
-                builder.append((char)val);
+                builder.append((char) val);
                 pixelXIndex += JUMP_BY_X;
                 pixelXIndex %= width;
                 pixelYIndex += JUMP_BY_Y;

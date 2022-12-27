@@ -32,7 +32,7 @@ public class Filter
         {
             Calendar cal = Calendar.getInstance();
             cal.setTime(transaction.date());
-            int transactionMonth= cal.get(Calendar.MONTH) + 1;
+            int transactionMonth = cal.get(Calendar.MONTH) + 1;
             if (month == transactionMonth)
             {
                 filtered.add(transaction);

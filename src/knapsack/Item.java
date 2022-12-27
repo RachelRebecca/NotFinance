@@ -54,12 +54,10 @@ public class Item implements Comparable<Item>
         if (getRatio() > o.getRatio())
         {
             retVal = 1;
-        }
-        else if (getRatio() == o.getRatio())
+        } else if (getRatio() == o.getRatio())
         {
             retVal = compareByWeights(o);
-        }
-        else
+        } else
         {
             retVal = -1;
         }
@@ -72,8 +70,7 @@ public class Item implements Comparable<Item>
         if (getWeight() > o.getWeight())
         {
             retVal = 1;
-        }
-        else if (getWeight() < o.getWeight())
+        } else if (getWeight() < o.getWeight())
         {
             retVal = -1;
         }

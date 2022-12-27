@@ -13,7 +13,7 @@ public class BufImg
         try
         {
             bi = ImageIO.read(imageFile);
-         } catch (Exception exception)
+        } catch (Exception exception)
         {
             System.out.println(exception.getMessage());
         }

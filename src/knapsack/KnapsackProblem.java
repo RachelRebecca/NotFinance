@@ -45,8 +45,8 @@ public class KnapsackProblem
 //        System.out.println(items);
         System.out.println("items in knapsack: \n" + knapsack.wikiSolution(items)
                 .toString()
-                .replace("[","")
-                .replace("]",""));
+                .replace("[", "")
+                .replace("]", ""));
         System.out.println("maximum weight in knapsack: " + knapsack.getMaxWeight());
         System.out.println("current  value in knapsack: " + knapsack.getValue());
         System.out.println("current weight in knapsack: " + knapsack.getCurrWeight());

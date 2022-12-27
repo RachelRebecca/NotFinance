@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TransactionInformation
 {
-    private ArrayList<Transaction> transactions;
+    private final ArrayList<Transaction> transactions;
     private int numberOfTransactions;
     private double totalCostOfTransactions;
 

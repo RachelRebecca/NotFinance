@@ -45,12 +45,14 @@ public class Knapsack
 
         ArrayList<Item>[] rowAboveItems = new ArrayList[maxWeight + 1];
 
-        for (int i = 0; i <= maxWeight; i++) {
+        for (int i = 0; i <= maxWeight; i++)
+        {
             rowAboveItems[i] = new ArrayList<>();
         }
         ArrayList<Item>[] currentRowItems = new ArrayList[maxWeight + 1];
 
-        for (int i = 0; i <= maxWeight; i++) {
+        for (int i = 0; i <= maxWeight; i++)
+        {
             currentRowItems[i] = new ArrayList<>();
         }
 
@@ -70,11 +72,13 @@ public class Knapsack
                         currentRow[col] = maxValueWithItem;
                         currentRowItems[col].addAll(rowAboveItems[col - potentialNewWeight]);
                         currentRowItems[col].add(newItem);
-                    } else {
+                    } else
+                    {
                         currentRow[col] = rowAbove[col];
                         currentRowItems[col] = rowAboveItems[col];
                     }
-                } else {
+                } else
+                {
                     currentRow[col] = rowAbove[col];
                     currentRowItems[col] = rowAboveItems[col];
                 }
@@ -84,7 +88,8 @@ public class Knapsack
             currentRow = new int[maxWeight + 1];
 
             System.arraycopy(currentRowItems, 0, rowAboveItems, 0, currentRowItems.length);
-            for (int i = 0; i <= maxWeight; i++) {
+            for (int i = 0; i <= maxWeight; i++)
+            {
                 currentRowItems[i] = new ArrayList<>();
             }
         }

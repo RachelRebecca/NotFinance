@@ -47,11 +47,12 @@ public class FileParser
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             try
             {
-            return new Transaction(format.parse(fields[0]),
-                    fields[1],
-                    Double.parseDouble(fields[2]),
-                    Double.parseDouble(fields[3]));
-            } catch (Exception e){
+                return new Transaction(format.parse(fields[0]),
+                        fields[1],
+                        Double.parseDouble(fields[2]),
+                        Double.parseDouble(fields[3]));
+            } catch (Exception e)
+            {
                 return null;
             }
         } else

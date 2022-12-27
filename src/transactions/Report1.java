@@ -9,7 +9,7 @@ import java.util.Arrays;
  * ticker  e.g., IBM <br>
  * quantity e.g. -300 (sell 300 shares) <br>
  * price    (per share, e.g., 120.33) <br>
- *     produce a "report" showing total expense <br>
+ * produce a "report" showing total expense <br>
  */
 public class Report1
 {

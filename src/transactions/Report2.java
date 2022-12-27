@@ -40,7 +40,7 @@ public class Report2
 
         public void calculateTotalExpenseAndTransactions()
         {
-            try(BufferedReader reader = new BufferedReader(new FileReader(this.fileName)))
+            try (BufferedReader reader = new BufferedReader(new FileReader(this.fileName)))
             {
                 String line = "";
                 while ((line = reader.readLine()) != null)
